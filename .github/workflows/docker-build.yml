@@ -10,7 +10,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME: ghcr.io/mokarian91/newelectron-php:8.4-alpine
+      IMAGE_NAME: ghcr.io/mokarian91/newelectron-php   # repository only, no tag
+      IMAGE_TAG: 8.4-alpine
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -28,13 +29,20 @@ jobs:
 
       - name: Build Docker image
         run: |
+          # build the 'base' stage with a proper single-tag
           docker build --progress=plain \
             --target base \
-            -t $IMAGE_NAME:base .
+            -t $IMAGE_NAME:$IMAGE_TAG-base .
+  
+          # build the final image and tag with the version tag
           docker build --progress=plain \
-            -t $IMAGE_NAME:latest .
-
+            -t $IMAGE_NAME:$IMAGE_TAG .
+  
+          # also tag the versioned image as 'latest' if you want a :latest tag
+          docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
+  
       - name: Push Docker image
         run: |
-          docker push $IMAGE_NAME:base
+          docker push $IMAGE_NAME:$IMAGE_TAG-base
+          docker push $IMAGE_NAME:$IMAGE_TAG
           docker push $IMAGE_NAME:latest
