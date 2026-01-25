@@ -1,5 +1,5 @@
 # Internal PHP 8.4 FPM base image
-FROM php:8.4-fpm-alpine
+FROM php:8.4-fpm-alpine AS base
 
 RUN apk add --no-cache \
     bash \
