@@ -13,6 +13,7 @@ RUN apk add --no-cache \
     libpng-dev \
     libjpeg-turbo-dev \
     freetype-dev \
+    libwebp-dev
     curl \
     git \
     openssl \
@@ -20,6 +21,10 @@ RUN apk add --no-cache \
     libressl \
     linux-headers \
     $PHPIZE_DEPS \
+    && docker-php-ext-configure gd \
+      --with-freetype \
+      --with-jpeg \
+      --with-webp \
     && docker-php-ext-install \
     pdo \
     pdo_mysql \
