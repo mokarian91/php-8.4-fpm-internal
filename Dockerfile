@@ -13,7 +13,7 @@ RUN apk add --no-cache \
     libpng-dev \
     libjpeg-turbo-dev \
     freetype-dev \
-    libwebp-dev
+    libwebp-dev \
     curl \
     git \
     openssl \
